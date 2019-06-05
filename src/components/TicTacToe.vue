@@ -18,9 +18,9 @@
         <td @click='turn(2, 2)'>{{board[2][2].val}}</td>
       </tr>
     </table>
-    <h3 v-if='!endResult'>{{player}}'s turn</h3>
-    <h3 v-else-if="endResult=='X'">Congratulations, X!</h3>
-    <h3 v-else-if="endResult=='O'">Congratulations, O!</h3>
+    <h3 v-if='!endOfGame'>{{player}}'s turn</h3>
+    <h3 v-else-if="endOfGame=='X'">Congratulations, X!</h3>
+    <h3 v-else-if="endOfGame=='O'">Congratulations, O!</h3>
     <h3 v-else>Stalemate!</h3>
   </div>
 </template>
@@ -30,7 +30,6 @@ export default {
   data() {
     return {
       player: 'O',
-      // endResult: '',
       movesLeft: 9,
       board: {
         0: {
@@ -56,7 +55,7 @@ export default {
       if (this.board[i][j].locked) {
         return //can't change previous moves
       }
-      if (this.endResult) {
+      if (this.endOfGame) {
         return //the game is finished!
       }
       this.board[i][j].val = this.player //make the player's move
@@ -65,12 +64,12 @@ export default {
       this.movesLeft--
     },
     eq(i, j, player) {
-      //checks whether board is equal to a player at a coordinate, used for conciseness
+      //helper function for checking board layout
       return this.board[i][j].val === player
     }
   },
   computed: {
-    endResult() {
+    endOfGame() {
       for (const t of ['X', 'O']) {
         for (const i in this.board) {
           if (this.eq(i, 0, t) && this.eq(i, 1, t) && this.eq(i, 2, t)) return t //rows
@@ -104,5 +103,4 @@ table td {
   width: 7rem;
   height: 7rem;
 }
-
 </style>
