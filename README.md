@@ -1,4 +1,4 @@
-# one
+# Tic Tac Toe
 
 ## Project setup
 ```
